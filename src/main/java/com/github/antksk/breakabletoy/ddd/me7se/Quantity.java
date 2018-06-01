@@ -1,12 +1,15 @@
 package com.github.antksk.breakabletoy.ddd.me7se;
 
+import java.util.Optional;
+
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
-public final class Quantity implements Comparable<Quantity> {
+public final class Quantity implements MerchandiseValueFactor, Comparable<Quantity> {
+
     private static final int MIN_QUANTITY = 0;
     private static final int MAX_QUANTITY = 10_000_000;
-    private final int qty;
+    public static final String INFINITY_VALUE = "infinity";
 
     private static final Quantity INFINITY = new Quantity(Integer.MIN_VALUE);
     private static final Quantity ZERO = new Quantity(0);
@@ -14,10 +17,18 @@ public final class Quantity implements Comparable<Quantity> {
     private static final Quantity HUNDRED = new Quantity(100);
     private static final Quantity THOUSAND = new Quantity(1_000);
 
+    private final int qty;
+
     private Quantity(int qty){
         this.qty = qty;
     }
 
+    @Override
+    public Optional<Quantity> getQuantity() {
+        return Optional.of(this);
+    }
+
+    @Override
     public int getValue(){
         return qty;
     }
@@ -66,7 +77,7 @@ public final class Quantity implements Comparable<Quantity> {
     }
 
     /**
-     * 수량의 범위는 0 ~ MAX_QUANTITY개 까지 설정 가능
+     * 수량의 범위는 MIN_QUANTITY ~ MAX_QUANTITY 까지 설정 가능
      * @param qty
      * @return
      */
@@ -79,6 +90,6 @@ public final class Quantity implements Comparable<Quantity> {
 
     @Override
     public String toString() {
-        return String.format("%s", equals(INFINITY) ? "infinity" : getValue());
+        return String.format("%s", equals(INFINITY) ? INFINITY_VALUE : getValue());
     }
 }
