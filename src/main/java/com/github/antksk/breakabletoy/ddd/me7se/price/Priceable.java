@@ -1,4 +1,4 @@
-package com.github.antksk.breakabletoy.ddd.me7se;
+package com.github.antksk.breakabletoy.ddd.me7se.price;
 
 public interface Priceable{
     long getPrice();
