@@ -21,4 +21,10 @@ public interface Merchandiser {
      * @return
      */
     MerchandiseType getType();
+
+    /**
+     * 유통상품의 품질
+     * @return
+     */
+    Quality getQuality();
 }

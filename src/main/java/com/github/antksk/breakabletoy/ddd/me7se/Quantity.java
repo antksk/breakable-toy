@@ -1,21 +1,31 @@
 package com.github.antksk.breakabletoy.ddd.me7se;
 
+import com.google.common.collect.ImmutableMap;
+
+import java.util.Map;
 import java.util.Optional;
 
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
-public final class Quantity implements MerchandiseValueFactor, Comparable<Quantity> {
+public final class Quantity implements MerchandiseValueFactor<Integer> {
 
     private static final int MIN_QUANTITY = 0;
     private static final int MAX_QUANTITY = 10_000_000;
     public static final String INFINITY_VALUE = "infinity";
 
     private static final Quantity INFINITY = new Quantity(Integer.MIN_VALUE);
-    private static final Quantity ZERO = new Quantity(0);
-    private static final Quantity ONE = new Quantity(1);
-    private static final Quantity HUNDRED = new Quantity(100);
-    private static final Quantity THOUSAND = new Quantity(1_000);
+    private static final Quantity ZERO = Quantity.of(0);
+    private static final Quantity ONE = Quantity.of(1);
+    private static final Quantity HUNDRED = Quantity.of(100);
+    private static final Quantity THOUSAND = Quantity.of(1_000);
+
+    private static final Map<Integer,Quantity> cache = new ImmutableMap.Builder<Integer,Quantity>()
+            .put(0, ZERO)
+            .put(1, ONE)
+            .put(100, HUNDRED)
+            .put(1_000, THOUSAND)
+            .build();
 
     private final int qty;
 
@@ -29,31 +39,13 @@ public final class Quantity implements MerchandiseValueFactor, Comparable<Quanti
     }
 
     @Override
-    public int getValue(){
+    public Integer getValue(){
         return qty;
     }
 
     @Override
-    public int compareTo(Quantity quantity) {
-        return qty - quantity.qty;
-    }
-
-    /**
-     * this &lt; target quantity
-     * @param quantity
-     * @return
-     */
-    public boolean lessThen(Quantity quantity){
-        return 0 > compareTo(quantity);
-    }
-
-    /**
-     * this &gt; target quantity
-     * @param quantity
-     * @return
-     */
-    public boolean greaterThen(Quantity quantity){
-        return 0 < compareTo(quantity);
+    public int compareTo(MerchandiseValueFactor<Integer> o) {
+        return compareTo(getValue() - o.getValue());
     }
 
     public static Quantity infinity(){
@@ -81,9 +73,12 @@ public final class Quantity implements MerchandiseValueFactor, Comparable<Quanti
      * @param qty
      * @return
      */
-    public static Quantity create(int qty){
+    public static Quantity of(int qty){
         if( MIN_QUANTITY > qty || MAX_QUANTITY < qty ){
             return INFINITY;
+        }
+        if( cache.containsKey(qty) ){
+            return cache.get(qty);
         }
         return new Quantity(qty);
     }
@@ -92,4 +87,6 @@ public final class Quantity implements MerchandiseValueFactor, Comparable<Quanti
     public String toString() {
         return String.format("%s", equals(INFINITY) ? INFINITY_VALUE : getValue());
     }
+
+
 }
