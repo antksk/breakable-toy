@@ -21,7 +21,14 @@ public interface MerchandiseValueFactor<T extends Number> extends Comparable<Mer
      * @param factor
      * @return
      */
-    default int compareTo(T factor){
+    default int compareToFactor(T factor){
+        if(factor instanceof Short){
+            short result = factor.shortValue();
+            if( 0 > result ) return 1;
+            if( 0 < result ) return -1;
+            return 0;
+        }
+
         if(factor instanceof Integer){
             int result = factor.intValue();
             if( 0 > result ) return 1;
@@ -49,12 +56,16 @@ public interface MerchandiseValueFactor<T extends Number> extends Comparable<Mer
         throw new NumberFormatException();
     }
 
+    default boolean equalTo(MerchandiseValueFactor<T> factor){
+        return equals(factor) && 0 == compareTo(factor);
+    }
+
     /**
      * this &lt; target factor
      * @param factor
      * @return
      */
-    default boolean lessThen(MerchandiseValueFactor<T> factor){
+    default boolean lessThan(MerchandiseValueFactor<T> factor){
         return 0 > compareTo(factor);
     }
 
@@ -63,7 +74,7 @@ public interface MerchandiseValueFactor<T extends Number> extends Comparable<Mer
      * @param factor
      * @return
      */
-    default boolean greaterThen(MerchandiseValueFactor<T> factor){
+    default boolean greaterThan(MerchandiseValueFactor<T> factor){
         return 0 < compareTo(factor);
     }
 

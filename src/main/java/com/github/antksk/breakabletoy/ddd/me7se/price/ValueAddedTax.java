@@ -10,7 +10,7 @@ public final class ValueAddedTax implements Priceable {
     private static final long MIN_VAT = 0L;
     private static final ValueAddedTax ZERO = new ValueAddedTax(MIN_VAT);
 
-    private long vat;
+    private final long vat;
 
     private ValueAddedTax(long vat){
         this.vat = Math.abs(vat);
@@ -18,7 +18,7 @@ public final class ValueAddedTax implements Priceable {
 
     public static ValueAddedTax of( long vat ){
         if( MIN_VAT >= vat ) {
-            return ZERO;
+            return zero();
         }
         return new ValueAddedTax(vat);
     }

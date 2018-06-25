@@ -16,7 +16,7 @@ public interface Priceable extends MerchandiseValueFactor<Long>{
 
     @Override
     default int compareTo(MerchandiseValueFactor<Long> o) {
-        return compareTo(getValue() - o.getValue());
+        return compareToFactor(getValue() - o.getValue());
     }
 
     @Override

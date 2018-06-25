@@ -45,7 +45,7 @@ public final class Quantity implements MerchandiseValueFactor<Integer> {
 
     @Override
     public int compareTo(MerchandiseValueFactor<Integer> o) {
-        return compareTo(getValue() - o.getValue());
+        return compareToFactor(getValue() - o.getValue());
     }
 
     public static Quantity infinity(){

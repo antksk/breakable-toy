@@ -37,11 +37,11 @@ public class QuantityTest {
     public void QTY_연산자_메서드_테스트(){
         assertThat(_0_.equals(_0_)).isTrue();
 
-        assertThat(_0_.lessThen(_1_)).isTrue();
-        assertThat(_100_.lessThen(_1_000_)).isTrue();
-        assertThat(_1_000_.lessThen(infinity)).isTrue();
+        assertThat(_0_.lessThan(_1_)).isTrue();
+        assertThat(_100_.lessThan(_1_000_)).isTrue();
+        assertThat(_1_000_.lessThan(infinity)).isTrue();
 
-        assertThat(_1_.greaterThen(_0_)).isTrue();
+        assertThat(_1_.greaterThan(_0_)).isTrue();
     }
 
     @Test
