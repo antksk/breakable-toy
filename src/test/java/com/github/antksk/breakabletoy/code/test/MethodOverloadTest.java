@@ -11,6 +11,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toSet;
 
 @Slf4j
 public class MethodOverloadTest {
@@ -78,5 +82,7 @@ public class MethodOverloadTest {
 
 
         myList.find("z").ifPresent(e->log.debug("element : {}", e));
+
+//        getCollection().stream().collect(Collectors.toCollection(Collectors.toCollection(()->new TreeSet<>());
     }
 }

@@ -8,6 +8,6 @@ public class Price implements Priceable {
 
     @Override
     public Type getType() {
-        return null;
+        return Type.COST;
     }
 }

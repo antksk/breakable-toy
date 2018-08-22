@@ -1,5 +1,7 @@
 package com.github.antksk.breakabletoy.util;
 
+import lombok.Data;
+
 import java.util.Random;
 
 public class RandomUtils {
