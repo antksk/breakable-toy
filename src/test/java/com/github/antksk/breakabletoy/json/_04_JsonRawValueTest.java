@@ -1,9 +1,9 @@
 package com.github.antksk.breakabletoy.json;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -12,38 +12,41 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * @JsonGetter
- *  json으로 만들려는 객체의 get메소드를 기반으로 json properties를 만드는데,
- *  JsonGetter어노테이션이 지정된 get 메소드는 지정된 이름으로 json properties를 만듬
+ * @JsonRawValue
+ *  문자열로 저장되어 있는 json이 serialize 될때, JSON 형태로 변환됨
  **/
 @Slf4j
-public class JsonGetterTest {
+public class _04_JsonRawValueTest {
 
-    @AllArgsConstructor
-    static class ExtendableBean {
-        @Getter
+    @Getter
+    public class TestJsonObject {
         private int id;
 
-        private String name;
+        @JsonRawValue
+        private String json;
 
-        @JsonGetter("name")
-        public String getTheName() {
-            return name;
+        public TestJsonObject(int id){
+            this.id = id;
+            this.json = "{\"attr\":false}";
+        }
+
+        @JsonGetter("raw")
+        public String getJson(){
+            return json;
         }
     }
 
-
     @Test
-    public void whenSerializingUsingJsonGetter_thenCorrect()
+    public void test()
             throws JsonProcessingException {
 
-        ExtendableBean bean = new ExtendableBean(1, "My bean");
+        TestJsonObject bean = new TestJsonObject(1);
 
         String result = new ObjectMapper().writeValueAsString(bean);
 
         log.debug("result json : {}", result);
 
-        assertThat(result, containsString("My bean"));
         assertThat(result, containsString("1"));
+        assertThat(result, containsString("{\"attr\":false}"));
     }
 }

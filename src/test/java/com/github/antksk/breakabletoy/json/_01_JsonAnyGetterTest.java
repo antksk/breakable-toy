@@ -23,7 +23,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 
 @Slf4j
-public class JsonAnyGetterTest {
+public class _01_JsonAnyGetterTest {
 
     // custom map
     static class ExtendableBeanProperties extends AbstractMap<String, String>{
@@ -46,11 +46,11 @@ public class JsonAnyGetterTest {
     }
 
 
-    static class ExtendableBean {
+    static class TestJsonObject {
         public String name;
         private ExtendableBeanProperties properties;
 
-        public ExtendableBean(String name) {
+        public TestJsonObject(String name) {
             this.name = name;
             this.properties = new ExtendableBeanProperties();
         }
@@ -66,14 +66,14 @@ public class JsonAnyGetterTest {
     }
 
     @Test
-    public void whenSerializingUsingJsonAnyGetter_thenCorrect()
+    public void test()
             throws JsonProcessingException {
 
-        ExtendableBean bean = new ExtendableBean("My bean");
-        bean.add("attr1", "val1");
-        bean.add("attr2", "val2");
+        TestJsonObject json = new TestJsonObject("My json");
+        json.add("attr1", "val1");
+        json.add("attr2", "val2");
 
-        String result = new ObjectMapper().writeValueAsString(bean);
+        String result = new ObjectMapper().writeValueAsString(json);
 
         log.debug("result json : {}", result);
 
