@@ -32,3 +32,5 @@
 7. @JsonFilter
 
 - https://www.baeldung.com/jackson-annotations
+- https://cheese10yun.github.io/jackson-annotation/
+- http://tutorials.jenkov.com/java-json/jackson-annotations.html
