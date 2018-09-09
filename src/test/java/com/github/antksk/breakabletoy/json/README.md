@@ -1,3 +1,4 @@
+
 ## Jackson Serialization Annotations
 1. @JsonAnyGetter
 2. @JsonGetter
@@ -29,3 +30,5 @@
 5. @JsonManagedReference, @JsonBackReference
 6. @JsonIdentityInfo
 7. @JsonFilter
+
+- https://www.baeldung.com/jackson-annotations
