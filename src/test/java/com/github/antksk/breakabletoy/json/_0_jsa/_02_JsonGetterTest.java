@@ -1,4 +1,4 @@
-package com.github.antksk.breakabletoy.json;
+package com.github.antksk.breakabletoy.json._0_jsa;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.core.JsonProcessingException;

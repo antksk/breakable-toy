@@ -1,4 +1,4 @@
-package com.github.antksk.breakabletoy.json;
+package com.github.antksk.breakabletoy.json._0_jsa;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.ObjectMapper;

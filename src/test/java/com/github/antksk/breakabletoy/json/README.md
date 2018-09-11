@@ -9,7 +9,13 @@
 7. @JsonSerialize : 사용자 정의 serializer를 선언하여 연결 시킴
 
 ## Jackson Deserialization Annotations
-1. @JsonCreator
+1. @JsonCreator : 생성자나 factory를 통해 다음과 같이 정확히 일치 하지 않는 JSON에 대해 property 매칭이 될수 있도록 동작함
+    ```json
+     {
+         "id":1,
+         "theName":"My bean"
+     }
+    ```
 2. @JacksonInject
 3. @JsonAnySetter
 4. @JsonSetter
