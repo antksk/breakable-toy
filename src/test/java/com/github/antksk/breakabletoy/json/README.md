@@ -1,12 +1,12 @@
 
 ## Jackson Serialization Annotations
-1. @JsonAnyGetter
-2. @JsonGetter
-3. @JsonPropertyOrder
-4. @JsonRawValue
-5. @JsonValue
-6. @JsonRootName
-7. @JsonSerialize
+1. @JsonAnyGetter : 파라미터 타입이 Map인 경우 key값을 기준으로 value값을 모두 가져와 JSON으로 만듬 
+2. @JsonGetter : 지정된 이름으로 JSON property 생성
+3. @JsonPropertyOrder : property의 순서를 지정함
+4. @JsonRawValue : 문자열에 포함된 JSON을 jackson직렬화를 통해 바로 JSON으로 생성함
+5. @JsonValue : enum 타입을 사용할 때 맴버 필드 중 지정된 필드를 Value로 사용함
+6. @JsonRootName : JSON으로 생성되는 객체의 root 이름을 지정함
+7. @JsonSerialize : 사용자 정의 serializer를 선언하여 연결 시킴
 
 ## Jackson Deserialization Annotations
 1. @JsonCreator
