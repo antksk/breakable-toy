@@ -37,7 +37,12 @@ dependencies {
 	compile('com.google.guava:guava:24.1-jre')
 	compile('org.projectlombok:lombok')
 
-	runtime('org.springframework.boot:spring-boot-devtools')
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8'
+
+
+
+    runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('com.h2database:h2')
 	compileOnly('org.springframework.boot:spring-boot-configuration-processor')
 

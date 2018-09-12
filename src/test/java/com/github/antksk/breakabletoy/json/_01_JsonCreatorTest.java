@@ -1,5 +1,6 @@
 package com.github.antksk.breakabletoy.json;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class _01_JsonCreatorTest {
         private final String name;
         private final List<Object> test;
 
+        @JsonCreator
         public TestJsonObject0(
                 @JsonProperty("id") int id,
                 @JsonProperty("theName") String name,

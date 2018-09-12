@@ -16,10 +16,62 @@
          "theName":"My bean"
      }
     ```
-2. @JacksonInject
-3. @JsonAnySetter
-4. @JsonSetter
-5. @JsonDeserialize
+    ```java
+       @Getter
+       public static final class TestJsonObject0 {
+           private final int id;
+           private final String name;
+   
+           @JsonCreator
+           public TestJsonObject0(
+                   @JsonProperty("id") int id,
+                   @JsonProperty("theName") String name
+           ) {
+               this.id = id;
+               this.name = name;
+           }
+        }
+    ```
+2. @JacksonInject : 지정된 JSON데이터가 아닌 곳에서 특정 값을 주입 받을수 있도록 동작함
+    - __주의__ 아래와 같이 한 클래스에 여러 필드로 ```JacksonInject```를 사용하면,
+    ```java.lang.IllegalArgumentException: No injectable id with value 'id2' found (for property 'id2')``` 발생함
+    ```java
+           public static final class TestJsonObject {
+               @JacksonInject("id")
+               private int id;
+       
+               @JacksonInject("id2")
+               private int id2;
+            }
+    ```
+    - JacksonInject에 아무 정보도 주지 않으면 Inject 대상 이름을 ```id```로 설정됨, 특정 이름을 주고 싶으면 다음과 같이 설정하면 됨
+    ```java
+       public static final class TestJsonObject {
+           @JacksonInject("test")
+           private int id;
+       }
+       
+    ```
+    ```java
+       public class _02_JacksonInjectTest {
+           @Test
+           public void test() throws IOException {
+            
+            InjectableValues inject = new InjectableValues.Std()
+            .addValue("test", 1);
+         
+            TestJsonObject bean = new ObjectMapper()
+               .reader(inject)
+               .forType(TestJsonObject.class)
+               .readValue(json);
+              
+           }
+       }
+    ```
+
+3. @JsonAnySetter : JSON property 정보가 명확하지 않아 Map의 유연성을 필요 할때 사용
+4. @JsonSetter : JsonProperty의 대안으로 사용됨, setter 메서드에 지정하며, JSON property 이름과 매칭되지 않을때 사용함
+5. @JsonDeserialize : 사용자 정의 deserializer를 연결 시킴
 
 ## Jackson Property Inclusion Annotations
 1. @JsonIgnoreProperties
