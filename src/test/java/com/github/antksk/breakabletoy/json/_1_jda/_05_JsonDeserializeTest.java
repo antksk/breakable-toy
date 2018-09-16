@@ -1,4 +1,4 @@
-package com.github.antksk.breakabletoy.json;
+package com.github.antksk.breakabletoy.json._1_jda;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
