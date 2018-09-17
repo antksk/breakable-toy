@@ -74,11 +74,25 @@
 5. @JsonDeserialize : 사용자 정의 deserializer를 연결 시킴
 
 ## Jackson Property Inclusion Annotations
-1. @JsonIgnoreProperties
-2. @JsonIgnore
-3. @JsonIgnoreType
-4. @JsonInclude
-5. @JsonAutoDetect
+1. @JsonIgnoreProperties : JSON 문자열로 생성될 때 클래스 레벨에서 특정 property를 무시(Ignore) 처리
+2. @JsonIgnore : JSON 문자열로 생성될 때 필드, 생성자, 메서드 레벨에서 특정 property를 무시(Ignore) 처리
+3. @JsonIgnoreType : JSON 문자열로 생성될 때 클래스(type) 레벨에서 모든 property를 무시(Ignore) 처리,
+즉, vo개념을 가진 type으로 사용된 클래스가 존재하는 경우, 그 type 클래스를 JSON 문자열로 생성하지 않음
+4. @JsonInclude : JSON 문자열로 생성될 때 지정된 Include 전략에 따라 필드를 제외(exclude)시킬지 여부 결정
+    - Include.ALWAYS : 
+    - Include.NON_NULL : 
+    - Include.NON_ABSENT : 
+    - Include.NON_EMPTY : 
+    - Include.NON_DEFAULT : 
+    - Include.CUSTOM : 
+    - Include.USE_DEFAULTS : 
+5. @JsonAutoDetect : JSON 문자열로 생성될 때 클래스 레벨에서 접근 한정자(public, private, protected)에 따라 필드의 표시 여부를 결정
+    - Visibility.ANY : 
+    - Visibility.NON_PRIVATE : 
+    - Visibility.PROTECTED_AND_PUBLIC : 
+    - Visibility.PUBLIC_ONLY : 
+    - Visibility.NONE : 
+    - Visibility.DEFAULT : 
 
 ## Jackson General Annotations
 1. @JsonProperty
@@ -92,3 +106,5 @@
 - https://www.baeldung.com/jackson-annotations
 - https://cheese10yun.github.io/jackson-annotation/
 - http://tutorials.jenkov.com/java-json/jackson-annotations.html
+- JsonInclude.Include.CUSTOM
+    - https://www.logicbig.com/tutorials/misc/jackson/json-include-customized.html
