@@ -9,7 +9,10 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.google.common.collect.ImmutableMap;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 
@@ -22,7 +25,7 @@ import java.util.Optional;
 public class _04_JsonIncludeTest {
 
     /*
-        - Include.ALWAYS :
+        - Include.VALUE :
     - Include.NON_NULL :
     - Include.NON_ABSENT :
     - Include.NON_EMPTY :
@@ -45,30 +48,37 @@ public class _04_JsonIncludeTest {
         protected Optional<String> optionalStrValue;
         protected List<Integer> intListValue;
 
-        public static final String ALWAYS = "ALWAYS";
+        public enum Keys{
+            VALUE,
+            EMPTY_OR_NULL,
+            DEFAULT;
+        }
+
+        public static final String VALUE = "VALUE";
         public static final String EMPTY_OR_NULL = "EMPTY_OR_NULL";
         public static final String DEFAULT = "DEFAULT";
 
         @JsonIgnore
-        private final Map<String,Runnable> initMap;
+        private final Map<Keys,Runnable> initMap;
 
 
         protected AbstractTestJsonObject(){
-            initMap = ImmutableMap.<String,Runnable>builder()
-                    .put(ALWAYS, this::initAlways)
-                    .put(EMPTY_OR_NULL, this::initEmptyOrNull)
-                    .put(DEFAULT, this::initDefault)
+            initMap = ImmutableMap.<Keys,Runnable>builder()
+                    .put(Keys.VALUE, this::initValue)
+                    .put(Keys.EMPTY_OR_NULL, this::initEmptyOrNull)
+                    .put(Keys.DEFAULT, this::initDefault)
                     .build();
         }
 
-        protected void init(String initKey){
+        public AbstractTestJsonObject init(Keys initKey){
 
             if( initMap.containsKey(initKey) ){
                 initMap.get(initKey).run();
             }
+            return this;
         }
 
-        private void initAlways(){
+        private void initValue(){
             intValue = 10;
             strValue = "test";
             optionalStrValue = Optional.of("optional test");
@@ -89,74 +99,128 @@ public class _04_JsonIncludeTest {
             optionalStrValue = Optional.empty();
             intListValue = Lists.emptyList();
         }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+                    .append("intValue", intValue)
+                    .append("strValue", strValue)
+                    .append("optionalStrValue", optionalStrValue)
+                    .append("intListValue", intListValue)
+                    .build();
+        }
     }
 
+    @NoArgsConstructor
     @JsonInclude(JsonInclude.Include.ALWAYS)
     public static final class TestJsonObjectAlways extends AbstractTestJsonObject implements TestJsonObject{
-        public TestJsonObjectAlways(String initKey){
+        public TestJsonObjectAlways(Keys initKey){
             super();
             init(initKey);
         }
+
+        @Override
+        public String toString() {
+            return super.toString();
+        }
     }
 
+    @NoArgsConstructor
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static final class TestJsonObjectNonNull extends AbstractTestJsonObject implements TestJsonObject{
-        public TestJsonObjectNonNull(String initKey){
+        public TestJsonObjectNonNull(Keys initKey){
             super();
             init(initKey);
         }
+
+        @Override
+        public String toString() {
+            return super.toString();
+        }
     }
 
+    @NoArgsConstructor
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     public static final class TestJsonObjectNonAbsent extends AbstractTestJsonObject implements TestJsonObject{
-        public TestJsonObjectNonAbsent(String initKey){
+        public TestJsonObjectNonAbsent(Keys initKey){
             super();
             init(initKey);
         }
+
+        @Override
+        public String toString() {
+            return super.toString();
+        }
     }
 
+    @NoArgsConstructor
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public static final class TestJsonObjectNonEmpty extends AbstractTestJsonObject implements TestJsonObject{
-        public TestJsonObjectNonEmpty(String initKey){
+        public TestJsonObjectNonEmpty(Keys initKey){
             super();
             init(initKey);
         }
+
+        @Override
+        public String toString() {
+            return super.toString();
+        }
     }
 
+    @NoArgsConstructor
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public static final class TestJsonObjectNonDefault extends AbstractTestJsonObject implements TestJsonObject{
-        public TestJsonObjectNonDefault(String initKey){
+        public TestJsonObjectNonDefault(Keys initKey){
             super();
             init(initKey);
         }
+
+        @Override
+        public String toString() {
+            return super.toString();
+        }
     }
 
+    @NoArgsConstructor
     @JsonInclude(JsonInclude.Include.CUSTOM)
     public static final class TestJsonObjectCustom extends AbstractTestJsonObject implements TestJsonObject{
-        public TestJsonObjectCustom(String initKey){
+        public TestJsonObjectCustom(Keys initKey){
             super();
             init(initKey);
         }
+
+        @Override
+        public String toString() {
+            return super.toString();
+        }
     }
 
+    @NoArgsConstructor
     @JsonInclude(JsonInclude.Include.USE_DEFAULTS)
     public static final class TestJsonObjectUseDefaults extends AbstractTestJsonObject implements TestJsonObject{
-        public TestJsonObjectUseDefaults(String initKey){
+        public TestJsonObjectUseDefaults(Keys initKey){
             super();
             init(initKey);
+        }
+
+        @Override
+        public String toString() {
+            return super.toString();
         }
     }
 
 
     public void displayResult(TestJsonObject obj) {
         try {
-            log.debug("{}: {}", obj.getClass().getSimpleName(), getResult(obj));
+            log.debug("\n[{}]\n" +
+                    "\t - OBJ : {}\n" +
+                    "\t - JSON : {}\n", obj.getClass().getSimpleName(), obj, getJsonResult(obj));
         } catch (JsonProcessingException e) {
             log.error("{}",e.getMessage());
         }
     }
 
-    private String getResult(TestJsonObject obj) throws JsonProcessingException {
+    private String getJsonResult(TestJsonObject obj) throws JsonProcessingException {
         return new ObjectMapper()
                 .registerModule(new ParameterNamesModule())
                 .registerModule(new Jdk8Module())
@@ -168,19 +232,30 @@ public class _04_JsonIncludeTest {
     public void test(){
 
 
-        Arrays.asList(AbstractTestJsonObject.ALWAYS, AbstractTestJsonObject.DEFAULT, AbstractTestJsonObject.EMPTY_OR_NULL)
-                .forEach(e->{
-                    log.info("### {}", e);
-                    displayResult(new TestJsonObjectAlways(e));
-                    displayResult(new TestJsonObjectNonNull(e));
-                    displayResult(new TestJsonObjectNonAbsent(e));
-                    displayResult(new TestJsonObjectNonEmpty(e));
-                    displayResult(new TestJsonObjectNonDefault(e));
-                    displayResult(new TestJsonObjectCustom(e));
-                    displayResult(new TestJsonObjectUseDefaults(e));
-                });
+//        Arrays.asList(AbstractTestJsonObject.VALUE, AbstractTestJsonObject.DEFAULT, AbstractTestJsonObject.EMPTY_OR_NULL)
+//                .forEach(e->{
+//                    log.info("### {}", e);
+//                    displayResult(new TestJsonObjectAlways(e));
+//                    displayResult(new TestJsonObjectNonNull(e));
+//                    displayResult(new TestJsonObjectNonAbsent(e));
+//                    displayResult(new TestJsonObjectNonEmpty(e));
+//                    displayResult(new TestJsonObjectNonDefault(e));
+//                    displayResult(new TestJsonObjectCustom(e));
+//                    displayResult(new TestJsonObjectUseDefaults(e));
+//                });
 
+        final AbstractTestJsonObject.Keys[] keys = AbstractTestJsonObject.Keys.values();
+        Arrays.asList(new TestJsonObjectAlways(),
+                new TestJsonObjectNonNull(),
+                new TestJsonObjectNonAbsent(),
+                new TestJsonObjectNonEmpty(),
+                new TestJsonObjectNonDefault(),
+                new TestJsonObjectCustom(),
+                new TestJsonObjectUseDefaults()).forEach(o->{
 
+                  for(AbstractTestJsonObject.Keys key : keys)
+                      displayResult(o.init(key));
 
+        });
     }
 }

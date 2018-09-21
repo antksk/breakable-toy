@@ -81,11 +81,11 @@
 4. @JsonInclude : JSON 문자열로 생성될 때 지정된 Include 전략에 따라 필드를 제외(exclude)시킬지 여부 결정
 추가적으로 value와 content라는 개념을 기반으로 Include 전략을 설정할 수 있는데, 예를 들어 ```List<String>```와 같이
 컨텐츠 기반의 타입에 대해서 content는 ```List```를 의미하고, value는 그 content에 들어 있는 값을 의미한다.
-    - Include.ALWAYS : 
-    - Include.NON_NULL : 
-    - Include.NON_ABSENT : 
-    - Include.NON_EMPTY : 
-    - Include.NON_DEFAULT : 
+    - Include.ALWAYS : property 값이 존재하지 않아도 null이나 공백, []등으로 채워 property를 표시함
+    - Include.NON_NULL : property 값이 null이 아닌경우 표시, 단 Optional객체가 empty인 경우 null로 표시함
+    - Include.NON_ABSENT : property 값이 null이거나 Optional객체가 empty인 경우 표시 하지 않음, 단 빈 배열이거나 공백 문자열인 경우엔 표시
+    - Include.NON_EMPTY : property값이 빈 경우(null, Optional.empty, 빈 배열, 공백 문자) 표시하지 않음
+    - Include.NON_DEFAULT : 보편적인 기본값(자바 원시타입 초기값, 공백 문자, 빈 배열)인 경우 표시하지 않음
     - Include.CUSTOM : 
     - Include.USE_DEFAULTS : 
 5. @JsonAutoDetect : JSON 문자열로 생성될 때 클래스 레벨에서 접근 한정자(public, private, protected)에 따라 필드의 표시 여부를 결정
