@@ -1,4 +1,4 @@
-package com.github.antksk.breakabletoy.algo.programmers;
+package com.github.antksk.breakabletoy.algo.programmers._2018._11st;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
