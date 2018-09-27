@@ -16,10 +16,13 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 
+import java.time.ZonedDateTime;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Slf4j
 public class _04_JsonIncludeTest {
@@ -182,8 +185,54 @@ public class _04_JsonIncludeTest {
     }
 
     @NoArgsConstructor
-    @JsonInclude(JsonInclude.Include.CUSTOM)
     public static final class TestJsonObjectCustom extends AbstractTestJsonObject implements TestJsonObject{
+
+        public static class PhoneFilter {
+            private static Pattern phonePattern = Pattern.compile("\\d{3}-\\d{3}-\\d{4}");
+
+            @Override
+            public boolean equals(Object obj) {
+
+                if (obj == null || !(obj instanceof String)) {
+                    return false;
+                }
+                //phone must match the regex pattern
+                boolean result = !phonePattern.matcher(obj.toString()).matches();
+                log.debug("##### PhoneFilter.equals -> obj : {}, {}", obj, result);
+                return result;
+            }
+        }
+
+        @Getter
+        // filter 대상이 collection 타입인 경우 content 키워드를 사용해야 함
+        @JsonInclude(content=JsonInclude.Include.CUSTOM, contentFilter = PhoneFilter.class)
+        private Map<String,String> phones = new ImmutableMap.Builder<String,String>()
+                .put("Cell", "111-111-1111")
+                .put("Work", "(222) 222 2222")
+                .build();
+
+
+        public static class DateOfBirthFilter {
+
+            @Override
+            public boolean equals(Object obj) {
+                if (obj == null || !(obj instanceof Date)) {
+                    return false;
+                }
+
+                //date should be in the past
+                Date date = (Date) obj;
+                boolean result = !date.before(new Date());
+                log.debug("##### DateOfBirthFilter.equals -> obj : {}, {}", obj, result);
+                return result;
+            }
+        }
+
+        @Getter
+        @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = DateOfBirthFilter.class)
+        private Date dateOfBirth = Date.from(ZonedDateTime.now().plusDays(1).toInstant());
+
+
         public TestJsonObjectCustom(Keys initKey){
             super();
             init(initKey);
@@ -245,17 +294,22 @@ public class _04_JsonIncludeTest {
 //                });
 
         final AbstractTestJsonObject.Keys[] keys = AbstractTestJsonObject.Keys.values();
-        Arrays.asList(new TestJsonObjectAlways(),
-                new TestJsonObjectNonNull(),
-                new TestJsonObjectNonAbsent(),
-                new TestJsonObjectNonEmpty(),
-                new TestJsonObjectNonDefault(),
-                new TestJsonObjectCustom(),
-                new TestJsonObjectUseDefaults()).forEach(o->{
+        Arrays.asList(
+//                new TestJsonObjectAlways()
+//                , new TestJsonObjectNonNull()
+//                , new TestJsonObjectNonAbsent()
+//                , new TestJsonObjectNonEmpty()
+//                , new TestJsonObjectNonDefault()
+                new TestJsonObjectCustom()
+//                , new TestJsonObjectUseDefaults()
+        )
+                .forEach(o->{
 
                   for(AbstractTestJsonObject.Keys key : keys)
                       displayResult(o.init(key));
 
         });
     }
+
+
 }

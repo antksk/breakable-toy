@@ -86,8 +86,19 @@
     - Include.NON_ABSENT : property 값이 null이거나 Optional객체가 empty인 경우 표시 하지 않음, 단 빈 배열이거나 공백 문자열인 경우엔 표시
     - Include.NON_EMPTY : property값이 빈 경우(null, Optional.empty, 빈 배열, 공백 문자) 표시하지 않음
     - Include.NON_DEFAULT : 보편적인 기본값(자바 원시타입 초기값, 공백 문자, 빈 배열)인 경우 표시하지 않음
-    - Include.CUSTOM : 
-    - Include.USE_DEFAULTS : 
+    - Include.CUSTOM : ```@JsonInclude(content = JsonInclude.Include.CUSTOM, contentFilter = XXXXFilter.class)``` 와 같이 설정후
+    ```XXXXFilter```클래스에 ```public boolean equals(Object obj)``` 메서드를 정의한다. 만약 ```equals```메서드가 false를 리턴해야 직렬화된다.
+        - 직렬화 하려는 대상이 Collection 타입인 경우, content 키워드를 사용해야 함 
+        ```
+            @JsonInclude(content=JsonInclude.Include.CUSTOM, contentFilter = PhoneFilter.class)
+            private Map<String,String> phones = new ImmutableMap.Builder<String,String>()
+        ```
+        - 직렬화 하려는 대상이 ValueObject인 경우, value 키워드를 사용해야함
+        ```
+             @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = DateOfBirthFilter.class)
+             private Date dateOfBirth = Date.from(ZonedDateTime.now().plusDays(1).toInstant());
+        ```
+    - Include.USE_DEFAULTS :
 5. @JsonAutoDetect : JSON 문자열로 생성될 때 클래스 레벨에서 접근 한정자(public, private, protected)에 따라 필드의 표시 여부를 결정
     - Visibility.ANY : 
     - Visibility.NON_PRIVATE : 
@@ -111,3 +122,6 @@
 - JsonInclude.Include.CUSTOM
     - https://www.logicbig.com/tutorials/misc/jackson/json-include-customized.html
     - https://www.logicbig.com/tutorials/misc/jackson/json-include-with-content-attribute.html
+- JsonInclude USE_DEFAULTS
+    - https://www.logicbig.com/tutorials/misc/jackson/json-include-use-defaults.html
+    - http://fasterxml.github.io/jackson-annotations/javadoc/2.7/com/fasterxml/jackson/annotation/JsonInclude.Include.html#USE_DEFAULTS
