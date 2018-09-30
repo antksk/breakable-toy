@@ -98,7 +98,8 @@
              @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = DateOfBirthFilter.class)
              private Date dateOfBirth = Date.from(ZonedDateTime.now().plusDays(1).toInstant());
         ```
-    - Include.USE_DEFAULTS :
+    - Include.USE_DEFAULTS : 필드 객체를 생성할 때 상위 수준의 기본값(higher-level defaults)을 설정, 만약 USE_DEFAULTS 값이 설정 되지 않으면 
+    ```ObjectMapper```에 설정된 글로벌 직렬화 포함 규칙(global serialization inclusion rules )이 적용됨
 5. @JsonAutoDetect : JSON 문자열로 생성될 때 클래스 레벨에서 접근 한정자(public, private, protected)에 따라 필드의 표시 여부를 결정
     - Visibility.ANY : 
     - Visibility.NON_PRIVATE : 
@@ -122,6 +123,6 @@
 - JsonInclude.Include.CUSTOM
     - https://www.logicbig.com/tutorials/misc/jackson/json-include-customized.html
     - https://www.logicbig.com/tutorials/misc/jackson/json-include-with-content-attribute.html
-- JsonInclude USE_DEFAULTS
+- JsonInclude.Include.USE_DEFAULTS
     - https://www.logicbig.com/tutorials/misc/jackson/json-include-use-defaults.html
     - http://fasterxml.github.io/jackson-annotations/javadoc/2.7/com/fasterxml/jackson/annotation/JsonInclude.Include.html#USE_DEFAULTS

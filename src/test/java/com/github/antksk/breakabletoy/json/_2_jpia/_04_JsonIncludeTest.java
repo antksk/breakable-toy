@@ -245,11 +245,27 @@ public class _04_JsonIncludeTest {
     }
 
     @NoArgsConstructor
-    @JsonInclude(JsonInclude.Include.USE_DEFAULTS)
     public static final class TestJsonObjectUseDefaults extends AbstractTestJsonObject implements TestJsonObject{
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        private List<String> phones;
+
+        @JsonInclude(JsonInclude.Include.USE_DEFAULTS)
+        public List<String> getPhones() {
+            return phones;
+        }
+
         public TestJsonObjectUseDefaults(Keys initKey){
             super();
             init(initKey);
+
+        }
+
+        @Override
+        public AbstractTestJsonObject init(Keys initKey) {
+            AbstractTestJsonObject init = super.init(initKey);
+            phones = Lists.emptyList(); // USE_DEFAULTS에 의해서 기본 설정된 초기값을 사용함
+            return init;
         }
 
         @Override
@@ -300,8 +316,8 @@ public class _04_JsonIncludeTest {
 //                , new TestJsonObjectNonAbsent()
 //                , new TestJsonObjectNonEmpty()
 //                , new TestJsonObjectNonDefault()
-                new TestJsonObjectCustom()
-//                , new TestJsonObjectUseDefaults()
+//                , new TestJsonObjectCustom()
+                 new TestJsonObjectUseDefaults()
         )
                 .forEach(o->{
 
