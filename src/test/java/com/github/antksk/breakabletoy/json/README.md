@@ -108,6 +108,11 @@
     - Visibility.NONE : 기존에 명시적으로 지정된 한정자를 모두 비활성화 하는데 사용됨
     - Visibility.DEFAULT : 사용하는 컨텍스트에 따라 기본 설정됨, 즉 상위 객체의 가시성을 기준으로 상속된 하위 값은 기본적으로 상위 가시성 속성을 따라감
     (This usually means that inherited value (from parent visibility settings) is to be used.)
+    
+## Jackson Polymorphic Type Handling Annotations
+- @JsonTypeInfo : 직렬화에 포함되는 유형 정보의 세부 정보를 표시하는데 사용됨
+- @JsonSubTypes : 하위 유형의 타입을 나타냄
+- @JsonTypeName : JSON 형태로 변경될때 ```type```영역에 표시될 하위 유형의 이름
 
 ## Jackson General Annotations
 1. @JsonProperty
