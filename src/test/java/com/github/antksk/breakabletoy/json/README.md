@@ -115,13 +115,40 @@
 - @JsonTypeName : JSON 형태로 변경될때 ```type```영역에 표시될 하위 유형의 이름
 
 ## Jackson General Annotations
-1. @JsonProperty
-2. @JsonFormat
-3. @JsonUnwrapped
-4. @JsonView
-5. @JsonManagedReference, @JsonBackReference
-6. @JsonIdentityInfo
-7. @JsonFilter
+1. @JsonProperty : JSON property 이름을 재정의 할때 사용함 
+2. @JsonFormat : Date, Time관련 객체들의 format을 설정하여, 직렬화 할 때 사용됨
+3. @JsonUnwrapped : 필드 값으로 지정된 객체를 단조로운 형태(flattened)나, unwrapped된 형태로 변경할 때 사용함
+    ```java
+       public class UnwrappedUser {
+           public int id;
+        
+           @JsonUnwrapped(suffix="Name")
+           public Name name;
+        
+           public static class Name {
+               public String first;
+               public String last;
+           }
+       }
+    ```
+    ```json
+        {
+            "id":1,
+            "firstName":"John",
+            "lastName":"Doe"
+        }
+
+    ```
+4. @JsonView : 직렬화(serialization), 비 직렬화(deserialization) 진행시 마킹된 클래스를 기반으로 JSON을 처리함
+5. @JsonManagedReference, @JsonBackReference : 부모(parent)/자식(child)관계를 처리하고 루프를 해결 하기 위해서 사용됨
+6. @JsonIdentityInfo : 부모/자식 관계로 구성되는 경우 JSON을 생성시 무한루프가 발생하는 경우가 있는데, 이때 객체의 Identity를 구성할 때 사용됨
+7. @JsonFilter : 직렬화가 진행될때 사용될 필터를 지정함
+
+## Custom Jackson Annotation
+
+## Jackson MixIn Annotations
+
+## Disable Jackson Annotation
 
 - https://www.baeldung.com/jackson-annotations
 - https://cheese10yun.github.io/jackson-annotation/
