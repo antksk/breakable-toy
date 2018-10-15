@@ -26,9 +26,9 @@ public final class ValueAddedTax implements Priceable {
     /**
      * 한국의 부과 가치세 기준으로 판매금액에 10%를 vat로 결정함
      * @param p
-     * @return
+     * @return p.getValue() * 0.1
      */
-    public static ValueAddedTax of( Priceable p ){
+    public static ValueAddedTax ofKoreaAddedTax( Priceable p ){
         return of( (long)(p.getValue() * 0.1) );
     }
 

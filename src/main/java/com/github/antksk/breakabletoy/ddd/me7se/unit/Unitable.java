@@ -9,6 +9,7 @@ public abstract class Unitable<T extends Number> implements MerchandiseValueFact
 
     private final T value;
     private final String unitName;
+
     protected Unitable(T value, String unitName){
         this.value = value;
         this.unitName = Objects.requireNonNull(unitName, "require unit name").toUpperCase();
@@ -24,13 +25,7 @@ public abstract class Unitable<T extends Number> implements MerchandiseValueFact
         return String.format("%s%s", MerchandiseValueFactor.super.toDisplayValue(), getUnitName());
     }
 
-    public String toDisplayValueWithUnitName(){
-        final Optional<Unitable> subUnitable = getSubUnitable();
-        if( subUnitable.isPresent() ){
-            return String.format("%%s(%s)", toString(), subUnitable.get());
-        }
-        return toString();
-    }
+
 
     public String getUnitName(){
         return unitName;
@@ -40,10 +35,5 @@ public abstract class Unitable<T extends Number> implements MerchandiseValueFact
     public Optional<Unitable> getUnitable() {
         return Optional.of(this);
     }
-
-    public Optional<Unitable> getSubUnitable() {
-        return Optional.empty();
-    }
-
 
 }

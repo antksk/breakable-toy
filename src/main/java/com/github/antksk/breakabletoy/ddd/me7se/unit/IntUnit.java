@@ -11,14 +11,7 @@ public class IntUnit extends Unitable<Integer>{
         super(value, unitName.toUpperCase());
     }
 
-    @Override
-    public String toDisplayValue() {
-        final String format = "%s%s";
-        if( 0 < getValue()) {
-            return toDisplayValueWithUnitName();
-        }
-        return String.format(format, 0, getUnitName());
-    }
+
 
     @Override
     public int compareTo(MerchandiseValueFactor<Integer> o) {

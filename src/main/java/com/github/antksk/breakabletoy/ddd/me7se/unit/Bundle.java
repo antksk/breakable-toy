@@ -14,4 +14,24 @@ public class Bundle {
         this.minimumUnit = minimumUnit;
     }
 
+    /*
+    public String toDisplayValueWithUnitName(){
+        final Optional<Unitable> subUnitable = getSubUnitable();
+        if( subUnitable.isPresent() ){
+            return String.format("%%s(%s)", toString(), subUnitable.get());
+        }
+        return toString();
+    }
+
+    @Override
+    public String toDisplayValue() {
+        final String format = "%s%s";
+        if( 0 < getValue()) {
+            return toDisplayValueWithUnitName();
+        }
+        return String.format(format, 0, getUnitName());
+    }
+
+    */
+
 }
