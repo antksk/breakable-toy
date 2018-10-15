@@ -7,6 +7,10 @@ import java.util.Optional;
 
 import lombok.EqualsAndHashCode;
 
+/**
+ * 수량(Quantity)
+ *
+ */
 @EqualsAndHashCode
 public final class Quantity implements MerchandiseValueFactor<Integer> {
 
@@ -14,17 +18,21 @@ public final class Quantity implements MerchandiseValueFactor<Integer> {
     private static final int MAX_QUANTITY = 10_000_000;
     public static final String INFINITY_VALUE = "infinity";
 
-    private static final Quantity INFINITY = new Quantity(Integer.MIN_VALUE);
-    private static final Quantity ZERO = Quantity.of(0);
-    private static final Quantity ONE = Quantity.of(1);
-    private static final Quantity HUNDRED = Quantity.of(100);
-    private static final Quantity THOUSAND = Quantity.of(1_000);
+    public static final Quantity INFINITY = new Quantity(Integer.MIN_VALUE);
+    public static final int ZERO_VALUE = 0;
+    public static final Quantity ZERO = Quantity.of(ZERO_VALUE);
+    public static final int ONE_VALUE = 1;
+    public static final Quantity ONE = Quantity.of(ONE_VALUE);
+    public static final int HUNDRED_VALUE = 100;
+    public static final Quantity HUNDRED = Quantity.of(HUNDRED_VALUE);
+    public static final int THOUSAND_VALUE = 1_000;
+    public static final Quantity THOUSAND = Quantity.of(THOUSAND_VALUE);
 
     private static final Map<Integer,Quantity> cache = new ImmutableMap.Builder<Integer,Quantity>()
-            .put(0, ZERO)
-            .put(1, ONE)
-            .put(100, HUNDRED)
-            .put(1_000, THOUSAND)
+            .put(ZERO_VALUE, ZERO)
+            .put(ONE_VALUE, ONE)
+            .put(HUNDRED_VALUE, HUNDRED)
+            .put(THOUSAND_VALUE, THOUSAND)
             .build();
 
     private final int qty;
@@ -48,25 +56,6 @@ public final class Quantity implements MerchandiseValueFactor<Integer> {
         return compareToFactor(getValue() - o.getValue());
     }
 
-    public static Quantity infinity(){
-        return INFINITY;
-    }
-
-    public static Quantity zero(){
-        return ZERO;
-    }
-
-    public static Quantity one(){
-        return ONE;
-    }
-
-    public static Quantity hundred(){
-        return HUNDRED;
-    }
-
-    public static Quantity thousand(){
-        return THOUSAND;
-    }
 
     /**
      * 수량의 범위는 MIN_QUANTITY ~ MAX_QUANTITY 까지 설정 가능
