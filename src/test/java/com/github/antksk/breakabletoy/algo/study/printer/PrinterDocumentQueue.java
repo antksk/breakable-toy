@@ -1,17 +1,21 @@
 package com.github.antksk.breakabletoy.algo.study.printer;
 
 import java.util.AbstractList;
+import java.util.AbstractQueue;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
-class PrinterDocumentQueue extends AbstractList<Document> implements Queue<Document> {
+class PrinterDocumentQueue extends AbstractQueue<Document> {
     private List<Document> queue;
 
     public PrinterDocumentQueue(){
         queue = new ArrayList<>();
     }
+
+
 
     public PrinterDocumentQueue(int capacity){
         queue = new ArrayList<>(capacity);
@@ -21,29 +25,33 @@ class PrinterDocumentQueue extends AbstractList<Document> implements Queue<Docum
         return false == isEmpty();
     }
 
-    public Document max(){
+    public Document findByMaxDocument(){
         return stream().max(Document.ascWithNo()).orElseGet(Document::empty);
     }
 
-    @Override
-    public void add(int index, Document document) {
-        queue.add(index, document);
+
+    public Document select(int index) {
+        return queue.get(index);
     }
 
     @Override
-    public Document get(int index) {
-        return queue.get(index);
+    public Iterator<Document> iterator() {
+        return queue.iterator();
     }
+
+
+    @Override
+    public boolean add(Document document) {
+        return queue.add(document);
+    }
+
+
 
     @Override
     public int size() {
         return queue.size();
     }
 
-    @Override
-    public Document remove(int index) {
-        return queue.remove(index);
-    }
 
     // 대기열 맨 우측에 문서 추가
     @Override
@@ -60,7 +68,7 @@ class PrinterDocumentQueue extends AbstractList<Document> implements Queue<Docum
 
     @Override
     public Document poll() {
-        return remove(0);
+        return queue.remove(0);
     }
 
     @Override
@@ -71,6 +79,6 @@ class PrinterDocumentQueue extends AbstractList<Document> implements Queue<Docum
 
     @Override
     public Document peek() {
-        return get(0);
+        return select(0);
     }
 }

@@ -19,7 +19,7 @@ class Document implements Comparable<Document> {
         return no;
     }
 
-    public boolean fullEquals(Document o){
+    public boolean is(Document o){
         return id.equals(o.id) && equals(o);
     }
 
