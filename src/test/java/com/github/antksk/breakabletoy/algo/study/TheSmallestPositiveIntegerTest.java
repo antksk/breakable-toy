@@ -1,4 +1,4 @@
-package com.github.antksk.breakabletoy.algo;
+package com.github.antksk.breakabletoy.algo.study;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -29,7 +29,7 @@ N is an integer within the range [1..100,000];
 each element of array A is an integer within the range [−1,000,000..1,000,000].
 */
 @Slf4j
-public class TheSmallestPositiveInteger {
+public class TheSmallestPositiveIntegerTest {
     class Solution {
         public int solution(int[] A){
             Arrays.sort(A);
