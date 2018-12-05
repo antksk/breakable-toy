@@ -24,8 +24,8 @@ public class GetMappingTestControllerTest {
     private MockMvc mvc;
 
     /**
-     * µ¿¸íÀÇ underscore ½ºÅ¸ÀÏ°ú lowerCamel ½ºÅ¸ÀÏÀÇ ÆÄ¶ó¹ÌÅÍ°¡ ÄÁÆ®·Ñ·¯¿¡ µé¾î¿ÔÀ»¶§,
-     * Á¤»óÀûÀ¸·Î °ªÀ» °¡Á® ¿Ã¼ö ÀÖµµ·Ï ÄÚµå ÀÛ¼º
+     * ë™ëª…ì˜ underscore ìŠ¤íƒ€ì¼ê³¼ lowerCamel ìŠ¤íƒ€ì¼ì˜ íŒŒë¼ë¯¸í„°ê°€ ì»¨íŠ¸ë¡¤ëŸ¬ì— ë“¤ì–´ì™”ì„ë•Œ,
+     * ì •ìƒì ìœ¼ë¡œ ê°’ì„ ê°€ì ¸ ì˜¬ìˆ˜ ìˆë„ë¡ ì½”ë“œ ì‘ì„±
      */
     @Test
     public void underscore_to_lower_camel_test() throws Exception{
@@ -44,7 +44,7 @@ public class GetMappingTestControllerTest {
 
 
     /**
-     * °°Àº url·Î ´Ù¸¥ ÀÌ¸§ÀÇ ÆÄ¶ó¹ÌÅÍ°¡ µé¾î¿ÔÀ»¶§, °¢ °¢ ´Ù¸¥ ¸Ş¼Òµå°¡ µ¿ÀÛÇÏ´ÂÁö Å×½ºÆ®
+     * ê°™ì€ urlë¡œ ë‹¤ë¥¸ ì´ë¦„ì˜ íŒŒë¼ë¯¸í„°ê°€ ë“¤ì–´ì™”ì„ë•Œ, ê° ê° ë‹¤ë¥¸ ë©”ì†Œë“œê°€ ë™ì‘í•˜ëŠ”ì§€ í…ŒìŠ¤íŠ¸
      */
     @Test
     public void same_param_test() throws Exception {
