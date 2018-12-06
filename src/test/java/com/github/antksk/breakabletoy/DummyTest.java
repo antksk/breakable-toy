@@ -1,11 +1,13 @@
 package com.github.antksk.breakabletoy;
 
+import com.google.common.collect.ImmutableCollection;
+import com.google.common.collect.ImmutableSet;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
@@ -20,6 +22,7 @@ public class DummyTest
 
     @Test
     public void test(){
+
 
         final String https = "((http[s]?|ftp):\\/)?\\/?";
         final String domain = "([^:\\/\\s]+)";
@@ -38,5 +41,48 @@ public class DummyTest
 
 
 
+    }
+
+
+    @Getter
+    @ToString
+    static final class CompleteImmutableObject {
+        private final int a;
+        private final Integer b;
+        private final String c;
+        private final ImmutableCollection<Integer> d;
+
+
+        private CompleteImmutableObject(int a, Integer b, String c, ImmutableCollection<Integer> d) {
+            this.a = a;
+            this.b = b;
+            this.c = c;
+            this.d = d;
+        }
+
+        @Builder
+        private CompleteImmutableObject(int a, Integer b, String c) {
+            this(a, b, c, defaultInitD());
+        }
+
+        private static ImmutableCollection<Integer> defaultInitD(){
+            return new ImmutableSet.Builder<Integer>()
+                    .add(1)
+                    .add(2)
+                    .add(3)
+                    .build();
+        }
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void test2(){
+        CompleteImmutableObject completeImmutableObject = CompleteImmutableObject.builder()
+                .a(1)
+                .b(11234)
+                .c("c")
+                .build();
+
+        log.debug("{}", completeImmutableObject);
+        completeImmutableObject.getD().add(1);
     }
 }
