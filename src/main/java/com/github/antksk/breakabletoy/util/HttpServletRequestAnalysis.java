@@ -4,6 +4,8 @@ import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterators;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,28 +53,51 @@ public final class HttpServletRequestAnalysis {
                 .orElse(remoteAddr());
     }
 
+    @ToString
     @EqualsAndHashCode(exclude="value")
-    final class HttpServletRequestResource{
+    public static final class HttpServletRequestAnalysisResource {
         private final String key;
         private final Optional<String> value;
+        private final String defaultValue;
 
-        public HttpServletRequestResource( final String key, final String value ){
+        private HttpServletRequestAnalysisResource(final String key, final String value, final String defaultValue ){
             this.key = key;
-            if( null == value || "".equals(value) )
-                this.value = Optional.empty();
-            else
-                this.value = Optional.of(value);
+            this.value = Optional.ofNullable(value);
+            this.defaultValue = defaultValue;
+        }
+
+        public static HttpServletRequestAnalysisResource of(String key, String value, String defaultValue){
+            return new HttpServletRequestAnalysisResource(key, value, defaultValue);
+        }
+
+        public static HttpServletRequestAnalysisResource ofDefaultValueIsEmpty(String key, String value){
+            return of(key, value, "");
+        }
+
+        public static String underscoreToCamelKey(String key){
+            if(hasFirstCharIsUnderscore(key)){
+                return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, key.substring(1));
+            }
+            return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, key);
+        }
+
+        private static boolean hasFirstCharIsUnderscore(String key) {
+            return 0 == key.indexOf("_");
+        }
+
+        public static String camelToUnderscoreKey(String key){
+            return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, key);
         }
 
         public String getSmartParam(HttpServletRequest request, String paramName, String defaultValue ){
-            final String underscoreToCamelParam = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, paramName);
+            final String underscoreToCamelParam = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, paramName);
             return Optional.ofNullable(request.getParameter(paramName))
                     .orElse(Optional.ofNullable(request.getParameter(underscoreToCamelParam))
                             .orElse(defaultValue));
         }
 
         public boolean hasRequestResource(){
-            this.value.isPresent();
+            return this.value.isPresent();
         }
     }
 
