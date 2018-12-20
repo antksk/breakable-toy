@@ -55,10 +55,15 @@ public final class HttpServletRequestAnalysis {
 
     @ToString
     @EqualsAndHashCode(exclude="value")
-    public static final class HttpServletRequestAnalysisResource {
+    public static class HttpServletRequestAnalysisResource {
         private final String key;
         private final Optional<String> value;
         private final String defaultValue;
+
+        @FunctionalInterface
+        public interface ConvertHttpServletRequestKey{
+            String apply(String key);
+        }
 
         private HttpServletRequestAnalysisResource(final String key, final String value, final String defaultValue ){
             this.key = key;

@@ -5,12 +5,13 @@ import java.util.function.Function;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static com.github.antksk.breakabletoy.util.HttpServletRequestAnalysis.HttpServletRequestAnalysisResource;
 
 public class HttpServletRequestAnalysisResourceTest {
 
     @Test
     public void underscoreToCamelKey_test(){
-        final Function<String, String> f = HttpServletRequestAnalysis.HttpServletRequestAnalysisResource::underscoreToCamelKey;
+        final HttpServletRequestAnalysisResource.ConvertHttpServletRequestKey f = HttpServletRequestAnalysisResource::underscoreToCamelKey;
         assertThat(f.apply("test_1234")).isEqualTo("test1234");
         assertThat(f.apply("1234_test")).isEqualTo("1234Test");
         assertThat(f.apply("abc_abc")).isEqualTo("abcAbc");
@@ -20,7 +21,7 @@ public class HttpServletRequestAnalysisResourceTest {
 
     @Test
     public void camelToUnderscoreKey_test(){
-        final Function<String, String> f = HttpServletRequestAnalysis.HttpServletRequestAnalysisResource::camelToUnderscoreKey;
+        final HttpServletRequestAnalysisResource.ConvertHttpServletRequestKey f = HttpServletRequestAnalysisResource::camelToUnderscoreKey;
         assertThat(f.apply("test1234")).isEqualTo("test1234");
         assertThat(f.apply("1234Test")).isEqualTo("1234_test");
         assertThat(f.apply("abcAbc")).isEqualTo("abc_abc");
