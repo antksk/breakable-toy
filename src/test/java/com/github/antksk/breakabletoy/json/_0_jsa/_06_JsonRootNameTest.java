@@ -1,20 +1,18 @@
 package com.github.antksk.breakabletoy.json._0_jsa;
 
+import org.junit.Test;
+
 import com.fasterxml.jackson.annotation.JsonRootName;
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-
-import java.io.IOException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.core.Is.is;
 
 /**
  * @JsonValue enum 전체 인스턴스를 serialize하는데 사용해야 하는 단일 메소드를 나타냄
@@ -22,7 +20,7 @@ import static org.hamcrest.core.Is.is;
 @Slf4j
 public class _06_JsonRootNameTest {
 
-    @JsonRootName("TestJsonObject")
+    @JsonRootName("user")
     @AllArgsConstructor
     @Getter
     public class TestJsonObject {
@@ -39,6 +37,6 @@ public class _06_JsonRootNameTest {
                 .writeValueAsString(new TestJsonObject(1, "test"));
 
         log.debug("{}",result);
-        assertThat(result, containsString("\"TestJsonObject\""));
+        assertThat(result, containsString("\"user\""));
     }
 }
