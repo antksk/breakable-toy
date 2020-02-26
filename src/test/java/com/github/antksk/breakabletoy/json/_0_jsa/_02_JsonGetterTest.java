@@ -1,12 +1,14 @@
 package com.github.antksk.breakabletoy.json._0_jsa;
 
+import org.junit.Test;
+
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -37,7 +39,7 @@ public class _02_JsonGetterTest {
     public void test()
             throws JsonProcessingException {
 
-        TestJsonObject json = new TestJsonObject(1, "json name");
+        TestJsonObject json = new TestJsonObject(1, "My json");
 
         String result = new ObjectMapper().writeValueAsString(json);
 
