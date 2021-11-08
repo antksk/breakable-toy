@@ -1,11 +1,11 @@
 package com.github.antksk.breakabletoy.algo.programmers._2018._11st;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.Arrays;
+import java.util.Map;
+
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.counting;
@@ -22,7 +22,6 @@ import static java.util.stream.Collectors.groupingBy;
 
 @Slf4j
 public class Test_0_1 {
-
     public boolean solution(int[] arr) {
 /*
         final Map<Integer, Integer> result = new HashMap<>();
@@ -41,16 +40,16 @@ public class Test_0_1 {
 
 */
         Map<Integer, Long> result = Arrays.stream(arr).boxed().collect(groupingBy(identity(), counting()));
-
-        for(Map.Entry<Integer, Long> e : result.entrySet()){
-            if( 1 < e.getValue() ) return false;
+        for (Map.Entry<Integer, Long> e : result.entrySet()) {
+            if (1 < e.getValue()) {
+                return false;
+            }
         }
-
         return true;
     }
 
     @Test
-    public void test(){
-        log.debug("{}", solution(new int[]{4,1,3}));
+    public void test() {
+        log.debug("{}", solution(new int[]{4, 1, 3}));
     }
 }

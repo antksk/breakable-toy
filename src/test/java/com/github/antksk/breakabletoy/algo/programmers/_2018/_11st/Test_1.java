@@ -1,13 +1,14 @@
 package com.github.antksk.breakabletoy.algo.programmers._2018._11st;
 
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.junit.Test;
+
+import lombok.extern.slf4j.Slf4j;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.counting;
@@ -24,30 +25,26 @@ import static java.util.stream.Collectors.toSet;
  */
 @Slf4j
 public class Test_1 {
-
-    public static final class Movie{
+    public static final class Movie {
         private final String name;
         private final long rank;
 
-        public Movie(String name, long rank){
+        public Movie(String name, long rank) {
             this.name = name;
             this.rank = rank;
         }
 
-        public static Movie create(Map.Entry<String, Long> e){
-            return new Movie(e.getKey(),e.getValue());
+        public static Movie create(Map.Entry<String, Long> e) {
+            return new Movie(e.getKey(), e.getValue());
         }
 
-
-        public String getName(){
+        public String getName() {
             return name;
         }
 
-        public long getRank(){
+        public long getRank() {
             return rank;
         }
-
-
 
         @Override
         public int hashCode() {
@@ -56,8 +53,8 @@ public class Test_1 {
 
         @Override
         public boolean equals(Object obj) {
-            if( obj instanceof Movie){
-                Movie target = (Movie)obj;
+            if (obj instanceof Movie) {
+                Movie target = (Movie) obj;
                 return this.name.equals(target.name);
             }
             return false;
@@ -65,26 +62,21 @@ public class Test_1 {
 
         @Override
         public String toString() {
-            return String.format("{name:%s, rank:%d}", name,rank);
+            return String.format("{name:%s, rank:%d}", name, rank);
         }
     }
 
     public String[] solution(String[] movie) {
-
         // Movie 객체로 변환
         Set<Movie> convertMovieSet = Arrays.stream(movie).collect(groupingBy(identity(), counting()))
-                .entrySet().stream().map(Movie::create)
-                .collect(toSet());
-
-                log.debug("convertMovieSet : {}", convertMovieSet);
-
+                                           .entrySet().stream().map(Movie::create)
+                                           .collect(toSet());
+        log.debug("convertMovieSet : {}", convertMovieSet);
         // 정렬된 영화 제목 배열로 변환
         List<String> sortedList = convertMovieSet.stream()
-                .sorted(Comparator.comparing(Movie::getRank).reversed().thenComparing(Movie::getName))
-                .map(Movie::getName)
-                .collect(toList());
-
-
+                                                 .sorted(Comparator.comparing(Movie::getRank).reversed().thenComparing(Movie::getName))
+                                                 .map(Movie::getName)
+                                                 .collect(toList());
         return sortedList.stream().toArray(String[]::new);
 
         /*
@@ -113,12 +105,9 @@ public class Test_1 {
 */
     }
 
-
     @Test
-    public void test(){
-        String[] result = solution(new String[]{"spy","ray","spy","room","once","ray","spy","once"});
+    public void test() {
+        String[] result = solution(new String[]{"spy", "ray", "spy", "room", "once", "ray", "spy", "once"});
         log.debug("result : {} / {}", result.length, result);
     }
-
-
 }

@@ -11,6 +11,7 @@ import java.util.RandomAccess;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import lombok.Getter;
@@ -115,10 +116,7 @@ public class KoreanPriceNotation {
         private boolean isLastPosAndUnderMaxPosSize() {
             return lastPosition && 4 != digitsSize();
         }
-
-        public int digitsSize() {
-            return koreanPriceSubList.size();
-        }
+        public int digitsSize() { return koreanPriceSubList.size(); }
 
         public int priceByDigits(){
             return IntStream.rangeClosed(0, zeroBaseSubListSize())
@@ -154,7 +152,7 @@ public class KoreanPriceNotation {
     }
 
 
-
+@Ignore
     @Test
     public void test(){
 //        long price = 987_654_321L;
@@ -166,6 +164,7 @@ public class KoreanPriceNotation {
                                    .filter(s->s.matches("[0-9]"))
                                    .map(Integer::parseInt)
                                    .collect(toList());
+
         System.out.println(list);
         KoreanPriceList koreanPriceList = new KoreanPriceList(list);
         // System.out.println(koreanPriceList);

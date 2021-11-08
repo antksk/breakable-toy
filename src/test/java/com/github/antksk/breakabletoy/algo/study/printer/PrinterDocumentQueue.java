@@ -11,24 +11,21 @@ import java.util.Queue;
 class PrinterDocumentQueue extends AbstractQueue<Document> {
     private List<Document> queue;
 
-    public PrinterDocumentQueue(){
+    public PrinterDocumentQueue() {
         queue = new ArrayList<>();
     }
 
-
-
-    public PrinterDocumentQueue(int capacity){
+    public PrinterDocumentQueue(int capacity) {
         queue = new ArrayList<>(capacity);
     }
 
-    public boolean isNotEmpty(){
+    public boolean isNotEmpty() {
         return false == isEmpty();
     }
 
-    public Document findByMaxDocument(){
+    public Document findByMaxDocument() {
         return stream().max(Document.ascWithNo()).orElseGet(Document::empty);
     }
-
 
     public Document select(int index) {
         return queue.get(index);
@@ -39,19 +36,15 @@ class PrinterDocumentQueue extends AbstractQueue<Document> {
         return queue.iterator();
     }
 
-
     @Override
     public boolean add(Document document) {
         return queue.add(document);
     }
 
-
-
     @Override
     public int size() {
         return queue.size();
     }
-
 
     // 대기열 맨 우측에 문서 추가
     @Override
@@ -62,7 +55,9 @@ class PrinterDocumentQueue extends AbstractQueue<Document> {
     // 맨 좌측에서 원소 제거
     @Override
     public Document remove() {
-        if( isEmpty() ) throw new NoSuchElementException();
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
         return poll();
     }
 
@@ -73,7 +68,9 @@ class PrinterDocumentQueue extends AbstractQueue<Document> {
 
     @Override
     public Document element() {
-        if( isEmpty() ) throw new NoSuchElementException();
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
         return peek();
     }
 

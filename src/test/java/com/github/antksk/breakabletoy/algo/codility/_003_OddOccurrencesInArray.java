@@ -1,6 +1,7 @@
 package com.github.antksk.breakabletoy.algo.codility;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.junit.Test;
 
 import java.util.AbstractSet;
@@ -16,35 +17,40 @@ import java.util.stream.IntStream;
 @Slf4j
 public class _003_OddOccurrencesInArray {
     static class Solution {
-
-        public class OddOccurrences{
+        public class OddOccurrences {
             private final int number;
             private final long count;
-            public OddOccurrences(int number, long count){
+
+            public OddOccurrences(int number, long count) {
                 this.number = number;
                 this.count = count;
             }
 
-            public int getNumber(){ return number; }
-            public long getCount(){ return count; }
-            public boolean isDuplicateNumber(){
+            public int getNumber() {
+                return number;
+            }
+
+            public long getCount() {
+                return count;
+            }
+
+            public boolean isDuplicateNumber() {
                 return 1 < count;
             }
 
-            public boolean isNotDuplicateNumber(){
+            public boolean isNotDuplicateNumber() {
                 return false == isDuplicateNumber();
             }
 
             @Override
             public int hashCode() {
-
                 return number;
             }
 
             @Override
             public boolean equals(Object obj) {
-                if( obj instanceof OddOccurrences ){
-                    OddOccurrences o = (OddOccurrences)obj;
+                if (obj instanceof OddOccurrences) {
+                    OddOccurrences o = (OddOccurrences) obj;
                     return number == o.number;
                 }
                 return false;
@@ -56,17 +62,16 @@ public class _003_OddOccurrencesInArray {
             }
         }
 
-        public class OddOccurrencesSet extends AbstractSet<OddOccurrences>{
-
+        public class OddOccurrencesSet extends AbstractSet<OddOccurrences> {
             public final Set<OddOccurrences> innerSet;
 
-            public OddOccurrencesSet(int[] array){
+            public OddOccurrencesSet(int[] array) {
                 innerSet = IntStream.of(array).boxed()
-                        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
-                        .entrySet().stream()
-                        .map(e->new OddOccurrences(e.getKey(), e.getValue()))
-                        .collect(Collectors.toSet());
-                log.debug("{}",innerSet);
+                                    .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                                    .entrySet().stream()
+                                    .map(e -> new OddOccurrences(e.getKey(), e.getValue()))
+                                    .collect(Collectors.toSet());
+                log.debug("{}", innerSet);
             }
 
             @Override
@@ -80,11 +85,11 @@ public class _003_OddOccurrencesInArray {
             }
         }
 
-        public int solution(int[] A){
+        public int solution(int[] A) {
             Optional<OddOccurrences> any = new OddOccurrencesSet(A)
-                    .stream()
-                    .filter(OddOccurrences::isNotDuplicateNumber)
-                    .findAny();
+                .stream()
+                .filter(OddOccurrences::isNotDuplicateNumber)
+                .findAny();
             return any.isPresent() ? any.get().getNumber() : -1;
         }
     }
@@ -93,35 +98,31 @@ public class _003_OddOccurrencesInArray {
         public int solution(int[] A) {
             // write your code in Java SE 8
             Map<Integer, Boolean> pairedMap = new HashMap<>();
-
-            for(int i = 0 ; i < A.length ; i++){
+            for (int i = 0; i < A.length; i++) {
                 int occurredNumber = A[i];
                 Boolean paired = pairedMap.get(occurredNumber);
-                if(paired == null || paired == true){
+                if (paired == null || paired == true) {
                     pairedMap.put(occurredNumber, false);
-                }
-                else{
+                } else {
                     pairedMap.put(occurredNumber, true);
                 }
             }
-
             Iterator<Integer> iterator = pairedMap.keySet().iterator();
             int minValue = Integer.MAX_VALUE;
-            while(iterator.hasNext()){
+            while (iterator.hasNext()) {
                 int key = iterator.next();
                 Boolean paired = pairedMap.get(key);
-                if(paired == false){
+                if (paired == false) {
                     minValue = Math.min(minValue, key);
                 }
             }
-
             return minValue;
         }
     }
 
     @Test
-    public void test(){
-       Solution2 s = new Solution2();
-       log.debug("{}", s.solution(new int[]{9, 3, 9, 3, 9, 7, 9}));
+    public void test() {
+        Solution2 s = new Solution2();
+        log.debug("{}", s.solution(new int[]{9, 3, 9, 3, 9, 7, 9}));
     }
 }

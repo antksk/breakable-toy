@@ -1,7 +1,8 @@
 package com.github.antksk.breakabletoy.algo.programmers._2018._11st;
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+
+import lombok.extern.slf4j.Slf4j;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -31,13 +32,12 @@ XX 게임에서는 지형 편집 기능을 이용하여 플레이어가 직접 �
  */
 @Slf4j
 public class Test_3 {
-
     public static final int LAND_3D = 3;
 
     private long heightCalculation(int[][] land, int P, int Q, long offset) {
         final int LAND_LEN = land.length;
         long result = 0;
-        for (int i = 0; i< LAND_LEN; i++) {
+        for (int i = 0; i < LAND_LEN; i++) {
             for (int j = 0; j < LAND_LEN; j++) {
                 result += (land[i][j] - offset) * (land[i][j] - offset > 0 ? Q : -P);
             }
@@ -51,10 +51,8 @@ public class Test_3 {
 
     private long findMaxHeight(int[][] land) {
         final int LAND_LEN = land.length;
-
         long maxHeight = 0;
-
-        for(int i=0; i< LAND_LEN;i++) {
+        for (int i = 0; i < LAND_LEN; i++) {
             for (int j = 0; j < LAND_LEN; j++) {
                 // log.debug("land[{}][{}] = {}", i, j, land[i][j]);
                 maxHeight = max(maxHeight, land[i][j]);
@@ -66,41 +64,31 @@ public class Test_3 {
 
     public long solution(int[][] land, int P, int Q) {
         long answer = Long.MAX_VALUE;
-        
         long low = 1;
-
         long height = findMaxHeight(land);
-
         // Ternary Search
         // for (int i = 0; i< 64; i++) {
-            long highToLow = calculatioLandInfo(height, 2 * low, LAND_3D);
-            long lowToHigh = calculatioLandInfo(2 * height, low, LAND_3D);
-            long lowBase = heightCalculation(land, P, Q, highToLow);
-            long hightBase = heightCalculation(land, P, Q, lowToHigh);
-
-            if (lowBase > hightBase){
-                low = highToLow;
-            }
-            else{
-                height = lowToHigh;
-            }
+        long highToLow = calculatioLandInfo(height, 2 * low, LAND_3D);
+        long lowToHigh = calculatioLandInfo(2 * height, low, LAND_3D);
+        long lowBase = heightCalculation(land, P, Q, highToLow);
+        long hightBase = heightCalculation(land, P, Q, lowToHigh);
+        if (lowBase > hightBase) {
+            low = highToLow;
+        } else {
+            height = lowToHigh;
+        }
         // }
         // log.debug("low = {}, height = {}", low, height);
-
         long mid = (low + height) / 2;
-
-        for(long i = mid - 10; i <= mid+10;i++)
+        for (long i = mid - 10; i <= mid + 10; i++) {
             answer = min(answer, heightCalculation(land, P, Q, i));
-
+        }
         return answer;
     }
 
-
-
-
     @Test
-    public void test(){
+    public void test() {
         log.debug("{}", solution(new int[][]{{1, 2}, {2, 3}}, 3, 2));
-        log.debug("{}", solution(new int[][]{{4, 4, 3}, {3, 2, 2}, { 2, 1, 0 }}, 5, 3));
+        log.debug("{}", solution(new int[][]{{4, 4, 3}, {3, 2, 2}, {2, 1, 0}}, 5, 3));
     }
 }
